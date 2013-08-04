@@ -9,6 +9,7 @@ embeds.xml
 
 Gladdy.lua
 Lang.lua
+Frame.lua
 Options.lua
 Speclist.lua
 
