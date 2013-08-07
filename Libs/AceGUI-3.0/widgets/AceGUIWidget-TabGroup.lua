@@ -57,7 +57,6 @@ do
 	
 	local function Tab_SetText(self, text)
 		self:_SetText(text)
-		-- TODO: Remove when 3.0 hits live
 		if WotLK then
 			PanelTemplates_TabResize(self, 0)
 		else
@@ -245,7 +244,6 @@ do
 			--equal padding for each tab to fill the available width
 			local padding = (width - rowwidths[row]) / (endtab - starttab+1)
 			for i = starttab, endtab do
-				-- TODO: Remove when 3.0 hits live
 				if WotLK then
 					PanelTemplates_TabResize(tabs[i], padding)
 				else

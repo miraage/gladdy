@@ -155,7 +155,6 @@ local typedkeys={
 		hasAlpha=optbool,
 	},
 	keybinding={
-		-- TODO
 	},
 }
 

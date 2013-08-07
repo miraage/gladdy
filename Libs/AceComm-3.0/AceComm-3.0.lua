@@ -2,7 +2,6 @@
 
 --[[ AceComm-3.0
 
-TODO: Time out old data rotting around from dead senders? Not a HUGE deal since the number of possible sender names is somewhat limited.
 
 ]]
 

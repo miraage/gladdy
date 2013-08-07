@@ -8,9 +8,6 @@ REQUIRES: AceConsole-3.0 for command registration (loaded on demand)
 
 ]]
 
--- TODO: handle disabled / hidden
--- TODO: implement handlers for all types
--- TODO: plugin args
 
 
 local MAJOR, MINOR = "AceConfigCmd-3.0", 6
@@ -26,7 +23,7 @@ local AceConsole -- LoD
 local AceConsoleName = "AceConsole-3.0"
 
 
-local L = setmetatable({}, {	-- TODO: replace with proper locale
+local L = setmetatable({}, {
 	__index = function(self,k) return k end
 })
 
@@ -454,7 +451,6 @@ local function handle(info, inputpos, tab, depth, retfalse)
 		------------ select ------------------------------------
 		local str = strtrim(strlower(str))
 		if str == "" then
-			--TODO: Show current selection and possible values
 			return
 		end
 		
@@ -484,7 +480,6 @@ local function handle(info, inputpos, tab, depth, retfalse)
 		------------ multiselect -------------------------------------------
 		local str = strtrim(strlower(str))
 		if str == "" then
-			--TODO: Show current values
 			return
 		end
 		
@@ -580,7 +575,6 @@ local function handle(info, inputpos, tab, depth, retfalse)
 		------------ color --------------------------------------------
 		local str = strtrim(strlower(str))
 		if str == "" then
-			--TODO: Show current value
 			return
 		end
 		
@@ -645,7 +639,6 @@ local function handle(info, inputpos, tab, depth, retfalse)
 		------------ keybinding --------------------------------------------
 		local str = strtrim(strlower(str))
 		if str == "" then
-			--TODO: Show current value
 			return
 		end
 		local value = keybindingValidateFunc(str:upper())
