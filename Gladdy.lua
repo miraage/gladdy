@@ -212,6 +212,10 @@ function Gladdy:OnProfileChanged()
 end
 
 function Gladdy:OnEnable()
+    for k, v in self:IterModules() do
+        self:Call(v, "Initialise") -- B.E > A.E :D
+    end
+
     if (IsAddOnLoaded("Clique")) then
         for i = 1, 5 do
             self:CreateButton(i)
@@ -226,10 +230,6 @@ function Gladdy:OnEnable()
     end
 
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
-
-    for k, v in self:IterModules() do
-        self:Call(v, "Initialise") -- B.E > A.E :D
-    end
 
     if (not self.db.locked and self.db.x == 0 and self.db.y == 0) then
         self:Print(L["Welcome to Gladdy!"])
