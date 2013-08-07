@@ -5,7 +5,6 @@ local select = select
 local pairs = pairs
 local tinsert = table.insert
 local tsort = table.sort
-local error = error
 local strsplit = string.split
 
 local CreateFrame = CreateFrame
@@ -88,7 +87,7 @@ function Gladdy:UnregisterEvent(event)
     self.events.registered[event] = nil
     self.events:UnregisterEvent(event)
 end
-function  Gladdy:UnregisterAllEvents()
+function Gladdy:UnregisterAllEvents()
     self.events.registered = {}
     self.events:UnregisterAllEvents()
 end
@@ -319,10 +318,6 @@ function Gladdy:JoinedArena()
         end
     end
 
-    if (not self.curBracket) then
-        return
-    end
-
     for i = 1, self.curBracket do
         if (not self.buttons["arena" .. i]) then
             self:CreateButton(i)
@@ -353,7 +348,6 @@ function Gladdy:JoinedArena()
     self:ScheduleRepeatingTimer("Sync", 1, self)
     self:RegisterComm("Gladdy")
 
-    self.test = false
     self:SendMessage("JOINED_ARENA")
     self:UpdateFrame()
     self.frame:Show()
@@ -535,13 +529,13 @@ function Gladdy:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, eventType, sourceG
     eventType = events[eventType]
     if (not eventType) then return end
 
-    local timex = ("%.1f"):format(GetTime())
+    local t = ("%.1f"):format(GetTime())
 
     if (events[eventType] == "DEATH" and destUnit) then
         self:SendMessage("UNIT_DEATH", destUnit)
     elseif (events[eventType] == "DAMAGE") then
         local button = self.buttons[destUnit]
-        if (button) then button.damaged = timex end
+        if (button) then button.damaged = t end
     elseif (eventType == "BUFF" and destUnit) then
         local button = self.buttons[destUnit]
         if (not button) then return end
