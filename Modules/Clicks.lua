@@ -73,7 +73,7 @@ end
 
 function Clicks:CheckAttributes()
     for k, v in pairs(Gladdy.buttons) do
-        if (v.ready) then
+        if (v.guid ~= "") then
             if (not v.click and not InCombatLockdown()) then
                 self:SetupAttributes(k)
                 v.click = true

@@ -287,12 +287,12 @@ function Gladdy:Reset()
     self.curBracket = nil
     self.curUnit = 1
 
-    for k, v in self:IterModules() do
-        self:Call(v, "Reset")
+    for k1, v1 in self:IterModules() do
+        self:Call(v1, "Reset")
     end
 
-    for i = 1, 5 do
-        self:ResetUnit("arena" .. i)
+    for k2 in pairs(self.buttons) do
+        self:ResetUnit(k2)
     end
 end
 
@@ -300,26 +300,18 @@ function Gladdy:ResetUnit(unit)
     local button = self.buttons[unit]
     if (not button) then return end
 
-    for k, v in pairs(self.BUTTON_DEFAULTS) do
-        button[k] = v
-    end
-
-    for k, v in self:IterModules() do
-        self:Call(v, "ResetUnit", unit)
-    end
-
     button:SetAlpha(0)
+
+    for k1, v1 in pairs(self.BUTTON_DEFAULTS) do
+        button[k1] = v1
+    end
+
+    for k2, v2 in self:IterModules() do
+        self:Call(v2, "ResetUnit", unit)
+    end
 end
 
 function Gladdy:JoinedArena()
-    for i = 1, MAX_BATTLEFIELD_QUEUES do
-        local status, _, _, _, _, teamSize = GetBattlefieldStatus(i)
-        if (status == "active" and teamSize > 0) then
-            self.curBracket = teamSize
-            break
-        end
-    end
-
     self:RegisterEvent("UNIT_AURA")
     self:RegisterEvent("UNIT_HEALTH")
     self:RegisterEvent("UNIT_MANA", "UNIT_POWER")
@@ -343,6 +335,20 @@ function Gladdy:JoinedArena()
 
     self:ScheduleRepeatingTimer("Sync", 1, self)
     self:RegisterComm("Gladdy")
+
+    for i = 1, MAX_BATTLEFIELD_QUEUES do
+        local status, _, _, _, _, teamSize = GetBattlefieldStatus(i)
+        if (status == "active" and teamSize > 0) then
+            self.curBracket = teamSize
+            break
+        end
+    end
+
+    for i = 1, self.curBracket do
+        if (not self.buttons["arena" .. i]) then
+            self:CreateButton(i)
+        end
+    end
 
     self:SendMessage("JOINED_ARENA")
     self:UpdateFrame()
@@ -533,7 +539,9 @@ function Gladdy:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, eventType, sourceG
         self:SendMessage("UNIT_DEATH", destUnit)
     elseif (events[eventType] == "DAMAGE") then
         local button = self.buttons[destUnit]
-        if (button) then button.damaged = t end
+        if (not button) then return end
+
+        button.damaged = t
     elseif (eventType == "BUFF" and destUnit) then
         local button = self.buttons[destUnit]
         if (not button) then return end
@@ -660,7 +668,7 @@ end
 
 function Gladdy:Sync()
     for k, v in pairs(self.buttons) do
-        if (v.ready) then
+        if (v.guid) then
             if (not v._health or not v._power or v.health ~= v._health or v.power ~= v._power) then
                 local message = ("%s,%s,%s,%s,%s,%s,%d,%d,%d,%d,%d"):format(
                     v.name, v.guid, v.class, v.classLoc, v.raceLoc, v.spec,
@@ -702,8 +710,6 @@ function Gladdy:OnCommReceived(prefix, message, dest, sender)
         if (spec ~= "") then
             self:DetectSpec(unit, spec)
         end
-
-        button.ready = true
     end
 end
 
@@ -794,8 +800,6 @@ function Gladdy:UpdateGUID(guid, uid)
     self:UNIT_AURA(nil, uid)
     self:UNIT_HEALTH(nil, uid)
     self:UNIT_POWER(nil, uid)
-
-    self.buttons[unit].ready = true
 end
 
 function Gladdy:EnemySpotted(name, guid, class, classLoc, raceLoc)
