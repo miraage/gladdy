@@ -668,7 +668,7 @@ end
 
 function Gladdy:Sync()
     for k, v in pairs(self.buttons) do
-        if (v.guid) then
+        if (v.guid ~= "") then
             if (not v._health or not v._power or v.health ~= v._health or v.power ~= v._power) then
                 local message = ("%s,%s,%s,%s,%s,%s,%d,%d,%d,%d,%d"):format(
                     v.name, v.guid, v.class, v.classLoc, v.raceLoc, v.spec,
