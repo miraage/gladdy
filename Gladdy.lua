@@ -39,6 +39,7 @@ local CombatLogClearEntries = CombatLogClearEntries
 local CombatLog_Object_IsA = CombatLog_Object_IsA
 local COMBATLOG_OBJECT_TARGET = COMBATLOG_OBJECT_TARGET
 local COMBATLOG_OBJECT_FOCUS = COMBATLOG_OBJECT_FOCUS
+local IsLoggedIn = IsLoggedIn
 
 local MAJOR, MINOR = "Gladdy", 3
 local Gladdy = LibStub:NewLibrary(MAJOR, MINOR)
@@ -178,7 +179,6 @@ function Gladdy:OnInitialise()
     self.specBuffs = self:GetSpecBuffs()
     self.specSpells = self:GetSpecSpells()
 
-    self.WRATH = GetSpellInfo(26985) -- TODO: 1.5sec cast time
     self.NS = GetSpellInfo(16188)
     self.POM = GetSpellInfo(12043)
     self.NF = GetSpellInfo(18095)
@@ -186,6 +186,9 @@ function Gladdy:OnInitialise()
     self.INSTANT = {
         [GetSpellInfo(172)] = true,     -- Corruption
         [GetSpellInfo(2645)] = true,    -- Ghost Wolf
+    }
+    self.CAST_TIMES = {
+        [GetSpellInfo(26985)] = 1.5,    -- Wrath
     }
     self.FD = GetSpellInfo(18708)
     self.SUMMON = {
@@ -203,6 +206,10 @@ function Gladdy:OnInitialise()
     self.lastInstance = nil
 
     self:SetupOptions()
+
+    for k, v in self:IterModules() do
+        self:Call(v, "Initialise") -- B.E > A.E :D
+    end
 end
 
 function Gladdy:OnProfileChanged()
@@ -213,9 +220,7 @@ function Gladdy:OnProfileChanged()
 end
 
 function Gladdy:OnEnable()
-    for k, v in self:IterModules() do
-        self:Call(v, "Initialise") -- B.E > A.E :D
-    end
+    self:RegisterEvent("PLAYER_ENTERING_WORLD")
 
     if (IsAddOnLoaded("Clique")) then
         for i = 1, 5 do
@@ -229,8 +234,6 @@ function Gladdy:OnEnable()
         ClickCastFrames[self.buttons.arena4.secure] = true
         ClickCastFrames[self.buttons.arena5.secure] = true
     end
-
-    self:RegisterEvent("PLAYER_ENTERING_WORLD")
 
     if (not self.db.locked and self.db.x == 0 and self.db.y == 0) then
         self:Print(L["Welcome to Gladdy!"])
@@ -291,8 +294,6 @@ function Gladdy:Reset()
     for i = 1, 5 do
         self:ResetUnit("arena" .. i)
     end
-
-    CombatLogClearEntries()
 end
 
 function Gladdy:ResetUnit(unit)
@@ -316,12 +317,6 @@ function Gladdy:JoinedArena()
         if (status == "active" and teamSize > 0) then
             self.curBracket = teamSize
             break
-        end
-    end
-
-    for i = 1, self.curBracket do
-        if (not self.buttons["arena" .. i]) then
-            self:CreateButton(i)
         end
     end
 
@@ -352,6 +347,8 @@ function Gladdy:JoinedArena()
     self:SendMessage("JOINED_ARENA")
     self:UpdateFrame()
     self.frame:Show()
+
+    CombatLogClearEntries()
 end
 
 function Gladdy:UNIT_AURA(event, uid)
@@ -599,7 +596,7 @@ function Gladdy:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, eventType, sourceG
         if (not fromTarget and not fromFocus) then
             local spellId, spellName = ...
             local icon = select(3, GetSpellInfo(spellId))
-            local castTime = select(7, GetSpellInfo(spellId)) / 1000
+            local castTime = self.CAST_TIMES[spellName] or select(7, GetSpellInfo(spellId)) / 1000
 
             self:CastStart(srcUnit, spellName, icon, 0, castTime, "cast")
         end
