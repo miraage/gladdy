@@ -302,6 +302,9 @@ function Gladdy:ResetUnit(unit)
 
     button:SetAlpha(0)
 
+    button._health = nil
+    button._power = nil
+
     for k1, v1 in pairs(self.BUTTON_DEFAULTS) do
         button[k1] = v1
     end
