@@ -178,6 +178,7 @@ function Gladdy:OnInitialise()
     self.specBuffs = self:GetSpecBuffs()
     self.specSpells = self:GetSpecSpells()
 
+    self.WRATH = GetSpellInfo(26985) -- TODO: 1.5sec cast time
     self.NS = GetSpellInfo(16188)
     self.POM = GetSpellInfo(12043)
     self.NF = GetSpellInfo(18095)
