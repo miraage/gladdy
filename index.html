@@ -7,53 +7,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Gladdy</title>
-    <style>
-        body {
-            color: #333;
-            background: #fff;
-            font: 16px Tahoma Verdana;
-            text-align: center;
-            width: 600px;
-            margin: 20px auto 0;
-        }
-
-        h1 {
-            color: #1e90ff;
-        }
-
-        #copyright {
-            border-top: 1px solid #ccc;
-            padding-top: 10px;
-            margin-top: 10px;
-        }
-
-        a {
-            color: #1e90ff;
-            text-decoration: none;
-        }
-
-        a:hover {
-            color: #fff;
-            background: #1e90ff;
-        }
-    </style>
+    <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="css/gladdy.css" media="screen">
 </head>
 <body>
-    <h1>
-        Gladdy
-    </h1>
-    <p>
-        The most powerful arena enemy unit frames on WoW 2.4.3 (The Burning Crusade).
-    </p>
-    <p>
-        Information about releases could be found
-        <a href="https://github.com/miraage/gladdy/releases">here</a>.
-    </p>
-    <p id="copyright">
-        &copy; 2010-2013 Mikhail "miraage" Osher (
-        <a href="mailto:miraage.wow@gmail.com">E-mail</a>
-        <a href="http://vk.com/miraage">VK</a>
-        )
-    </p>
+    <div id="wrap">
+        <header>
+            <div class="row-fluid">
+                <div class="span12">
+                    <h1>Gladdy</h1>
+
+                    <p class="lead">
+                        The most powerful arena enemy unit frames addon for WoW 2.4.3
+                    </p>
+
+                    <a class="btn btn-primary" href="https://github.com/miraage/gladdy/archive/v3.0.0.zip">
+                        Download latest version
+                    </a>
+
+                    <a class="btn btn-link" href="https://github.com/miraage/gladdy">
+                        View source code
+                    </a>
+
+                    <hr>
+                </div>
+            </div>
+        </header>
+        <section id="features">
+            <div class="row-fluid">
+                <div class="span12">
+                    <h5>Features:</h5>
+
+                    <ul>
+                        <li>
+                            Announcements
+                            <ul>
+                                <li>Drinks</li>
+                                <li>Resurrections</li>
+                                <li>New enemies</li>
+                                <li>Spec detection</li>
+                                <li>Low health</li>
+                                <li>Trinket used <sup>*</sup></li>
+                                <li>Trinket ready</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Combat control
+                            <ul>
+                                <li>Auras</li>
+                                <li>Diminishings</li>
+                                <li>Spell casting</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Button click options
+                            <ul>
+                                <li>Target</li>
+                                <li>Focus</li>
+                                <li>Cast spell</li>
+                                <li>Macro</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <p class="text-info">* Trinked usage detection is currently avaiable only on Nextgen-WoW server.</p>
+                </div>
+            </div>
+        </section>
+        <section id="reports">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="alert alert-block">
+                        <strong>Attention!</strong>
+                        <p>
+                            If you have any suggestions or found bug &mdash;
+                            please contact me (addresses at page bottom).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="todo">
+            <div class="row-fluid">
+                <div class="span12">
+                    <h5>TODO:</h5>
+
+                    <ul>
+                        <li>Aura announcements</li>
+                        <li>Team ratings after ranked match</li>
+                        <li>Trinket usage detection</li>
+                    </ul>
+
+                    <hr>
+                </div>
+            </div>
+        </section>
+        <footer>
+            <div class="row-fluid">
+                <div class="span12">
+                    <p class="muted">
+                        &copy; 2010-2013
+                        <a href="http://vk.com/miraage">Mikhail "miraage" Osher</a>
+                        (<a href="mailto:miraage.wow@gmail.com">miraage.wow@gmail.com</a>)
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
 </body>
 </html>

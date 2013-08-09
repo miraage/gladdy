@@ -1,0 +1,16 @@
+body {
+    background: #f5f5f5;
+}
+
+#wrap {
+    width: 700px;
+    margin: 10px auto;
+    padding: 19px 29px 29px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+}
+
+header,
+footer {
+    text-align: center;
+}
