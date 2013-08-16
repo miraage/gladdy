@@ -39,7 +39,6 @@ local CombatLogClearEntries = CombatLogClearEntries
 local CombatLog_Object_IsA = CombatLog_Object_IsA
 local COMBATLOG_OBJECT_TARGET = COMBATLOG_OBJECT_TARGET
 local COMBATLOG_OBJECT_FOCUS = COMBATLOG_OBJECT_FOCUS
-local IsLoggedIn = IsLoggedIn
 
 local MAJOR, MINOR = "Gladdy", 3
 local Gladdy = LibStub:NewLibrary(MAJOR, MINOR)
