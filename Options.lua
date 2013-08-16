@@ -27,15 +27,16 @@ SLASH_GLADDY1 = "/gladdy"
 SlashCmdList["GLADDY"] = function(msg)
     if (msg == "test2") then
         Gladdy:ToggleFrame(2)
-    elseif (msg == "test3") then
-        Gladdy:ToggleFrame(3)
-    elseif (msg:find("test")) then
+    elseif (msg == "test5") then
         Gladdy:ToggleFrame(5)
+    elseif (msg:find("test")) then
+        Gladdy:ToggleFrame(3)
     elseif (msg == "ui" or msg == "options" or msg == "config") then
         Gladdy:ShowOptions()
     elseif (msg == "reset") then
         Gladdy.dbi:ResetProfile()
     elseif (msg == "hide") then
+        Gladdy:Reset()
         Gladdy:HideFrame()
     else
         Gladdy:Print(L["Valid slash commands are:"])

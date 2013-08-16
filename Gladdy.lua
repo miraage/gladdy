@@ -216,7 +216,7 @@ function Gladdy:OnProfileChanged()
     self.db = self.dbi.profile
 
     self:HideFrame()
-    self:ToggleFrame(5)
+    self:ToggleFrame(3)
 end
 
 function Gladdy:OnEnable()
@@ -246,7 +246,7 @@ function Gladdy:OnEnable()
         self:Print(L["If this is not your first run please lock or move the frame to prevent this from happening."])
 
         self:HideFrame()
-        self:ToggleFrame(5)
+        self:ToggleFrame(3)
     end
 end
 
@@ -723,7 +723,6 @@ function Gladdy:GetButton(uid)
     return self.buttons[unit]
 end
 
--- TODO: aura announce
 function Gladdy:AuraGain(unit, aura)
     local button = self.buttons[unit]
     if (not button) then return end
