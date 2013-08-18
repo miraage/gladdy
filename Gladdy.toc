@@ -23,5 +23,4 @@ Modules\Healthbar.lua
 Modules\Highlight.lua
 Modules\Nameplates.lua
 Modules\Powerbar.lua
-Modules\Score.lua
 Modules\Trinket.lua

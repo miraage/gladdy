@@ -23,7 +23,7 @@ local Clicks = Gladdy:NewModule("Clicks", nil, {
 })
 LibStub("AceTimer-3.0"):Embed(Clicks)
 
-BINDING_HEADER_GLADDY = L["Gladdy"]
+BINDING_HEADER_GLADDY = "Gladdy"
 BINDING_NAME_GLADDYBUTTON1_LEFT = L["Left Click Enemy 1"]
 BINDING_NAME_GLADDYBUTTON2_LEFT = L["Left Click Enemy 2"]
 BINDING_NAME_GLADDYBUTTON3_LEFT = L["Left Click Enemy 3"]
