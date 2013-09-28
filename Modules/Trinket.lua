@@ -6,7 +6,7 @@ local GetTime = GetTime
 
 local Gladdy = LibStub("Gladdy")
 local L = Gladdy.L
-local Trinket = Gladdy:NewModule("Trinket", nil, {
+Trinket = Gladdy:NewModule("Trinket", nil, {
     trinketDisableOmniCC = false,
 })
 LibStub("AceComm-3.0"):Embed(Trinket)
@@ -85,9 +85,11 @@ function Trinket:JOINED_ARENA()
 end
 
 function Trinket:OnCommReceived(prefix, guid)
+	guid = string.lower(guid)
     if (prefix == "GladdyTrinketUsed") then
         for k, v in pairs(Gladdy.buttons) do
-            if (v.guid == guid) then
+		local vguid = string.lower(v.guid)
+            if (vguid == guid) then
                 self:Used(k)
                 break
             end

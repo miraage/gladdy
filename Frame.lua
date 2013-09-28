@@ -36,6 +36,8 @@ function Gladdy:CreateFrame()
     self.frame:EnableMouse(true)
     self.frame:SetMovable(true)
     self.frame:RegisterForDrag("LeftButton")
+	
+	
     self.frame:SetScript("OnDragStart", function(f)
         if (not InCombatLockdown() and not self.db.locked) then
             f:StartMoving()
@@ -232,6 +234,14 @@ function Gladdy:CreateButton(i)
 
     local button = CreateFrame("Frame", "GladdyButtonFrame" .. i, self.frame)
     button:SetAlpha(0)
+	
+	-- Trinket presser
+    local trinketButton = CreateFrame("Button", "GladdyTrinketButton" .. i, button, "SecureActionButtonTemplate")
+    trinketButton:RegisterForClicks("AnyUp")
+    trinketButton:SetAttribute("*type*", "macro")
+    --trinketButton:SetAttribute("macrotext1", string.format("/script Gladdy:TrinketUsed(\"%s\")", "arena" .. i))
+	-- Is there a way to NOT use a global function?
+	trinketButton:SetAttribute("macrotext1", string.format("/script Trinket:Used(\"%s\")", "arena" .. i))
 
     local secure = CreateFrame("Button", "GladdyButton" .. i, button, "SecureActionButtonTemplate")
     secure:RegisterForClicks("AnyUp")
@@ -240,6 +250,7 @@ function Gladdy:CreateButton(i)
     button.id = i
     button.unit = "arena" .. i
     button.secure = secure
+	button.trinketButton = trinketButton
 
     for k, v in pairs(self.BUTTON_DEFAULTS) do
         button[k] = v
