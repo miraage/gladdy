@@ -6,11 +6,16 @@ local L = Gladdy.L
 function Gladdy:GetSpecBuffs()
     return {
         -- DRUID
-        [GetSpellInfo(24858)] = L["Balance"],           -- Moonkin Form
+        --[GetSpellInfo(24858)] = L["Balance"],         -- Moonkin Form
+		--[GetSpellInfo(17007)] = L["Feral"],             -- Leader of the Pack
+		[GetSpellInfo(33881)] = L["Restoration"],         -- Natural Perfection
+		[GetSpellInfo(16880)] = L["Restoration"],         -- Nature's Grace; Dreamstate spec in TBC equals Restoration
+		[GetSpellInfo(24858)] = L["Restoration"],         -- Moonkin Form; Dreamstate spec in TBC equals Restoration 
 
         -- HUNTER
         [GetSpellInfo(34692)] = L["Beast Mastery"],     -- The Beast Within
-        [GetSpellInfo(20895)] = L["Beast Mastery"],       -- Spirit Bond
+        [GetSpellInfo(20895)] = L["Beast Mastery"],     -- Spirit Bond
+		[GetSpellInfo(27066)] = L["Marksmanship"],      -- Trueshot Aura
 
         -- MAGE
         [GetSpellInfo(33405)] = L["Frost"],             -- Ice Barrier
@@ -18,19 +23,26 @@ function Gladdy:GetSpecBuffs()
         -- PALADIN
         [GetSpellInfo(31836)] = L["Holy"],              -- Light's Grace
         [GetSpellInfo(20375)] = L["Retribution"],       -- Seal of Command
+        [GetSpellInfo(20218)] = L["Retribution"],       -- Sanctity Aura
 
         -- PRIEST
         [GetSpellInfo(15473)] = L["Shadow"],            -- Shadowform
+        [GetSpellInfo(45234)] = L["Discipline"],        -- Focused Will
+        [GetSpellInfo(27811)] = L["Discipline"],        -- Blessed Recovery
+        [GetSpellInfo(33142)] = L["Holy"],       		-- Blessed Resilience
 
         -- ROGUE
         [GetSpellInfo(36554)] = L["Subtlety"],          -- Shadowstep
 
         -- WARLOCK
         [GetSpellInfo(19028)] = L["Demonology"],        -- Soul Link
+        [GetSpellInfo(23759)] = L["Demonology"],        -- Master Demonologist
         [GetSpellInfo(30302)] = L["Destruction"],       -- Nether Protection
 
         -- WARRIOR
         [GetSpellInfo(29838)] = L["Arms"],              -- Second Wind
+        [GetSpellInfo(12292)] = L["Arms"],              -- Death Wish
+		
     }
 end
 
@@ -48,6 +60,7 @@ function Gladdy:GetSpecSpells()
         [GetSpellInfo(34490)] = L["Marksmanship"],      -- Silencing Shot
         [GetSpellInfo(27066)] = L["Marksmanship"],      -- Trueshot Aura
         [GetSpellInfo(27068)] = L["Survival"],          -- Wyvern Sting
+        [GetSpellInfo(19306)] = L["Survival"],          -- Counterattack
 
         -- MAGE
         [GetSpellInfo(12042)] = L["Arcane"],            -- Arcane Power
@@ -79,6 +92,7 @@ function Gladdy:GetSpecSpells()
         [GetSpellInfo(34413)] = L["Assassination"],     -- Mutilate
         [GetSpellInfo(13750)] = L["Combat"],            -- Adrenaline Rush
         [GetSpellInfo(14185)] = L["Subtlety"],          -- Preparation
+        [GetSpellInfo(16511)] = L["Subtlety"],          -- Hemorrhage
         [GetSpellInfo(36554)] = L["Subtlety"],          -- Shadowstep
 
         -- SHAMAN
@@ -99,6 +113,5 @@ function Gladdy:GetSpecSpells()
         [GetSpellInfo(30335)] = L["Fury"],              -- Bloodthirst
         [GetSpellInfo(12809)] = L["Protection"],        -- Concussion Blow
         [GetSpellInfo(30022)] = L["Protection"],        -- Devastation
-        [GetSpellInfo(12975)] = L["Protection"],        -- Last Stand
     }
 end

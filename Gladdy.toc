@@ -24,3 +24,4 @@ Modules\Highlight.lua
 Modules\Nameplates.lua
 Modules\Powerbar.lua
 Modules\Trinket.lua
+Modules\Cooldowns.lua
