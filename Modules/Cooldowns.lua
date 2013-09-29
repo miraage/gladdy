@@ -115,8 +115,7 @@ function Gladdy:GetCooldownList()
       -- Hunter
       ["HUNTER"] = {
          [19503] 	= 30,    -- Scatter Shot
-         [19263] 	= { cd = 90, spec = L["Survival"], },    -- Deterrence
-		 [19263] 	= { cd = 90, spec = L["Marksmanship"], },    -- Deterrence
+		 [19263] 	= 300,    -- Deterrence; not on BM but can't do 2 specs
          [14311] 	= { cd = 30,                              -- Freezing Trap
             sharedCD = {
                [13809] = true,       -- Frost Trap
@@ -144,7 +143,7 @@ function Gladdy:GetCooldownList()
       -- Rogue
       ["ROGUE"] = {
          --[1766] 	= 10,    -- Kick
-         [8643] 	= 20,    -- Kidney Shot
+         --[8643] 	= 20,    -- Kidney Shot
          [26669] 	= { cd = 300, [L["Combat"]] = 180,},   -- Evasion
          [31224] 	= 60,    -- Cloak of Shadow
          [26889] 	= { cd = 300, [L["Subtlety"]] = 180,},   -- Vanish        
@@ -163,6 +162,36 @@ function Gladdy:GetCooldownList()
                [36554] = true,
             },
          },
-      },                        
+      },
+	  ["Scourge"] = {
+		[7744] = 120, -- Will of the Forsaken
+	},
+	["BloodElf"] = {
+		[28730] = 120, -- Arcane Torrent
+	},
+	["Tauren"] = {
+		[20549] = 120, -- War Stomp
+	},
+	["Orc"] = {
+		
+	},
+	["Troll"] = {
+		
+	},
+	["NightElf"] = {
+		
+	},
+	["Draenei"] = {
+		
+	},
+	["Human"] = {
+		
+	},
+	["Gnome"] = {
+		
+	},
+	["Dwarf"] = {
+		[20594] = 180, -- Stoneform
+	},		
 	}
 end

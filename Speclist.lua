@@ -15,6 +15,7 @@ function Gladdy:GetSpecBuffs()
         -- HUNTER
         [GetSpellInfo(34692)] = L["Beast Mastery"],     -- The Beast Within
         [GetSpellInfo(20895)] = L["Beast Mastery"],     -- Spirit Bond
+        [GetSpellInfo(34455)] = L["Beast Mastery"],     -- Ferocious Inspiration
 		[GetSpellInfo(27066)] = L["Marksmanship"],      -- Trueshot Aura
 
         -- MAGE
@@ -83,6 +84,7 @@ function Gladdy:GetSpecSpells()
         -- PRIEST
         [GetSpellInfo(10060)] = L["Discipline"],        -- Power Infusion
         [GetSpellInfo(33206)] = L["Discipline"],        -- Pain Suppression
+        [GetSpellInfo(14752)] = L["Discipline"],        -- Divine Spirit
         [GetSpellInfo(33143)] = L["Holy"],              -- Blessed Resilience
         [GetSpellInfo(34861)] = L["Holy"],              -- Circle of Healing
         [GetSpellInfo(15473)] = L["Shadow"],            -- Shadowform

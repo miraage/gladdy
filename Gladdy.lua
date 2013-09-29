@@ -644,8 +644,13 @@ function Gladdy:COMBAT_LOG_EVENT_UNFILTERED(event, timestamp, eventType, sourceG
 	if self.cooldownSpellIds[spellName] then
 		local unit = srcUnit
 		if self.buttons[unit] then
-			local unitClass = self.buttons[unit].class
-			local spellId =  self.cooldownSpellIds[spellName] -- don't use spellId from combatlog, in case of different spellrank
+		local unitClass
+		local spellId =  self.cooldownSpellIds[spellName] -- don't use spellId from combatlog, in case of different spellrank
+			if (self.cooldownSpells[self.buttons[unit].class][spellId]) then
+				unitClass = self.buttons[unit].class
+			else
+				unitClass = self.buttons[unit].race
+			end
 			self:CooldownUsed(unit, unitClass, spellId, spellName)
 		end
 	end
@@ -831,7 +836,8 @@ function Gladdy:DetectSpec(unit, spec)
                local icon = button.spellCooldownFrame["icon" .. button.lastCooldownSpell]
                icon:Show()
                icon.texture:SetTexture(self.spellTextures[k])
-               
+               icon.spellId = k
+			   button.spellCooldownFrame["icon" .. button.lastCooldownSpell] = icon
                button.lastCooldownSpell = button.lastCooldownSpell + 1            
             end
          end
@@ -850,15 +856,16 @@ function Gladdy:UpdateGUID(guid, uid)
     if (not unit) then
         local name = UnitName(uid)
         local classLoc, class = UnitClass(uid)
-        local raceLoc = UnitRace(uid)
-
+        local raceLoc, race = UnitRace(uid)
         unit = self:EnemySpotted(name, guid, class, classLoc, raceLoc)
     end
 	if unit then
 	local button = self.buttons[unit]
 	local classLoc, class = UnitClass(uid)
+	local raceLoc, race = UnitRace(uid)
 	-- update cooldown tracker
 	if button then
+		button.race = race
 		button.lastCooldownSpell = 1
 		if (self.db.cooldown) then         
          for k,v in pairs(self.cooldownSpells[class]) do
@@ -883,12 +890,25 @@ function Gladdy:UpdateGUID(guid, uid)
                      icon:Show()
                      icon.spellId = k
                      icon.texture:SetTexture(self.spellTextures[k])
-                     
+                     button.spellCooldownFrame["icon" .. button.lastCooldownSpell] = icon
                      button.lastCooldownSpell = button.lastCooldownSpell + 1  
                   end          
                end
            --end
          end
+		 ----
+		 -- RACE FUNCTIONALITY
+		 ----
+		 for k,v in pairs(self.cooldownSpells[race]) do
+			if (not sharedCD) then                              
+                local icon = button.spellCooldownFrame["icon" .. button.lastCooldownSpell]
+                icon:Show()
+                icon.spellId = k
+                icon.texture:SetTexture(self.spellTextures[k])
+				button.spellCooldownFrame["icon" .. button.lastCooldownSpell] = icon
+				button.lastCooldownSpell = button.lastCooldownSpell + 1  
+            end
+		 end
 		end
 	end	
 	end
@@ -928,7 +948,7 @@ function Gladdy:CooldownUsed(unit, unitClass, spellId, spellName)
    if (type(cooldown) == "table") then
       -- return if the spec doesn't have a cooldown for this spell
       --if (arenaSpecs[unit] ~= nil and cooldown.notSpec ~= nil and arenaSpecs[unit] == cooldown.notSpec) then return end
-		if (button.spec ~= nil and cooldown.notSpec ~= nil and button.spec == cooldown.notSpec) then return end 	  
+		if (button.spec ~= nil and cooldown.notSpec ~= nil and button.spec == cooldown.notSpec) then return end 
       
       -- check if we need to reset other cooldowns because of this spell
       if (cooldown.resetCD ~= nil) then
@@ -975,8 +995,8 @@ end
 
 function Gladdy:CooldownStart(button, spellId, duration) -- starts timer frame
    if not duration or duration == nil or type(duration) ~= "number" then return end
-
-   for i=1, button.lastCooldownSpell do
+   for i=1, button.lastCooldownSpell+1 do
+   --self:Print("ID on CD Frame #"..i..":  "..button.spellCooldownFrame["icon" .. i].spellId.."   spellID just casted:"..spellId)
       if (button.spellCooldownFrame["icon" .. i].spellId == spellId) then
          local frame = button.spellCooldownFrame["icon" .. i]
          frame.active = true
