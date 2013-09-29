@@ -105,6 +105,25 @@ function Gladdy:CreateFrame()
     self.frame:Hide()
 end
 
+local function StyleActionButton(f)
+    local name = f:GetName()
+    local button  = _G[name]
+    local icon  = _G[name .. "Icon"]
+    local normalTex = _G[name .. "NormalTexture"]
+
+    normalTex:SetHeight(button:GetHeight())
+    normalTex:SetWidth(button:GetWidth())
+    normalTex:SetPoint("CENTER")
+
+    button:SetNormalTexture("Interface\\AddOns\\Gladdy\\Images\\Gloss")
+
+    icon:SetTexCoord(.1, .9, .1, .9)
+    icon:SetPoint("TOPLEFT", button, "TOPLEFT", 2, -2)
+    icon:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -2, 2)
+
+    normalTex:SetVertexColor(1, 1, 1, 1)
+end
+
 function Gladdy:UpdateFrame()
     local teamSize = self.curBracket or 5
 
@@ -194,9 +213,16 @@ function Gladdy:UpdateFrame()
 		-- Cooldown frame
 		if (self.db.cooldown) then
 			button.spellCooldownFrame:ClearAllPoints()
-			button.spellCooldownFrame:SetPoint("TOPLEFT", button,"TOPRIGHT", iconSize+5, 1) -- needs to be properly anchored after trinket
-			button.spellCooldownFrame:SetHeight(self.db.healthBarHeight+extraBarHeight)
-			button.spellCooldownFrame:SetWidth(self.db.healthBarHeight+extraBarHeight)
+			if self.db.cooldownPos == "RIGHT" then
+				button.spellCooldownFrame:SetPoint("TOPLEFT", button,"TOPRIGHT", iconSize+5, 1) -- needs to be properly anchored after trinket
+				
+			else
+				button.spellCooldownFrame:SetPoint("TOPRIGHT",button,"TOPLEFT",-5,-1)
+			end
+			--button.spellCooldownFrame:SetHeight(self.db.healthBarHeight+extraBarHeight)
+			button.spellCooldownFrame:SetHeight(self.db.cooldownSize*4)
+			--button.spellCooldownFrame:SetWidth(self.db.healthBarHeight+extraBarHeight)
+			button.spellCooldownFrame:SetWidth(self.db.cooldownSize*4)
 			button.spellCooldownFrame:Show()
          -- Update each cooldown icon
          for i=1,14 do
@@ -204,7 +230,7 @@ function Gladdy:UpdateFrame()
             icon:SetHeight(button.spellCooldownFrame:GetHeight()/2)
             icon:SetWidth(button.spellCooldownFrame:GetWidth()/2)
             icon:ClearAllPoints()
-            
+            if(self.db.cooldownPos == "RIGHT") then
 					if(i==1) then
 						icon:SetPoint("TOPLEFT",button.spellCooldownFrame)
 					elseif(i==2) then
@@ -212,17 +238,25 @@ function Gladdy:UpdateFrame()
 					elseif(i>=3) then
 						icon:SetPoint("LEFT",button.spellCooldownFrame["icon"..i-2],"RIGHT",1,0)
 					end
+				else
+					if(i==1) then
+						icon:SetPoint("TOPRIGHT",button.spellCooldownFrame)
+					elseif(i==2) then
+						icon:SetPoint("TOP",button.spellCooldownFrame["icon"..i-1],"BOTTOM",0,-1)
+					elseif(i>=3) then
+						icon:SetPoint("RIGHT",button.spellCooldownFrame["icon"..i-2],"LEFT",-1,0)
+					end
+				end	
 				
 				if (icon.active) then
                icon.active = false
                icon.cooldown:SetCooldown(GetTime(), 0)
                icon:SetScript("OnUpdate", nil)            
             end
-            
             icon.spellId = nil            
             icon:SetAlpha(1)
             icon.texture:SetTexture("Interface\\Icons\\Spell_Holy_PainSupression")
-            --StyleActionButton(icon)
+            StyleActionButton(icon)
             
             if (not self.frame.testing) then
                icon:Hide()

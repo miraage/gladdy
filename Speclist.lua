@@ -34,11 +34,13 @@ function Gladdy:GetSpecBuffs()
 
         -- ROGUE
         [GetSpellInfo(36554)] = L["Subtlety"],          -- Shadowstep
+        [GetSpellInfo(31233)] = L["Assassination"],     -- Find Weakness
 
         -- WARLOCK
         [GetSpellInfo(19028)] = L["Demonology"],        -- Soul Link
         [GetSpellInfo(23759)] = L["Demonology"],        -- Master Demonologist
         [GetSpellInfo(30302)] = L["Destruction"],       -- Nether Protection
+        [GetSpellInfo(34935)] = L["Destruction"],       -- Backlash
 
         -- WARRIOR
         [GetSpellInfo(29838)] = L["Arms"],              -- Second Wind

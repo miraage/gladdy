@@ -160,8 +160,6 @@ function Gladdy:OnInitialise()
     self.dbi.RegisterCallback(self, "OnProfileCopied", "OnProfileChanged")
     self.dbi.RegisterCallback(self, "OnProfileReset", "OnProfileChanged")
     self.db = self.dbi.profile
-	self.db.cooldown = true
-	self.db.cooldownPos = "TOP"
 
     self.LSM = LibStub("LibSharedMedia-3.0")
     self.LSM:Register("statusbar", "Gloss", "Interface\\AddOns\\Gladdy\\Images\\Gloss")
@@ -176,7 +174,6 @@ function Gladdy:OnInitialise()
         ["arena4"] = {name = "Talmon", raceLoc = L["Human"], classLoc = L["Warlock"], class = "WARLOCK", health = 10221, healthMax = 14960, power = 9855, powerMax = 9855, powerType = 0, spec = L["Demonology"]},
         ["arena5"] = {name = "Hydra", raceLoc = L["Undead"], classLoc = L["Priest"], class = "PRIEST", health = 11960, healthMax = 11960, power = 2515, powerMax = 10240, powerType = 0, spec = L["Discipline"]},
     }
-
     self.specBuffs = self:GetSpecBuffs()
     self.specSpells = self:GetSpecSpells()
 	

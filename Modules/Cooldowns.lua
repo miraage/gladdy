@@ -1,6 +1,77 @@
 local Gladdy = LibStub("Gladdy")
 local L = Gladdy.L
 
+local Cooldown = Gladdy:NewModule("Cooldown", nil, {
+    cooldown = true,
+	cooldownPos = "RIGHT",
+	cooldownSize = 15,
+})
+
+function Cooldown:Test(unit)
+		local button = Gladdy.buttons[unit]
+		self.cooldownSpells = Gladdy:GetCooldownList()
+		button.lastCooldownSpell = 1
+		local class = "WARRIOR"
+		local classLoc = L["Warrior"]
+		for k,v in pairs(self.cooldownSpells[class]) do		
+			local icon = button.spellCooldownFrame["icon" .. button.lastCooldownSpell]
+			icon:Show()
+			icon.spellId = k
+			icon.texture:SetTexture(Gladdy.spellTextures[k])
+			button.spellCooldownFrame["icon" .. button.lastCooldownSpell] = icon
+			button.lastCooldownSpell = button.lastCooldownSpell + 1  
+		end
+end
+
+local function option(params)
+    local defaults = {
+        get = function(info)
+            local key = info.arg or info[#info]
+            return Gladdy.dbi.profile[key]
+        end,
+        set = function(info, value)
+            local key = info.arg or info[#info]
+            Gladdy.dbi.profile[key] = value
+            Gladdy:UpdateFrame()
+        end,
+    }
+
+    for k, v in pairs(params) do
+        defaults[k] = v
+    end
+
+    return defaults
+end
+
+function Cooldown:GetOptions()
+    return {
+		cooldown = option({
+            type = "toggle",
+            name = L["Enable"],
+            desc = L["Enabled cooldown module"],
+            order = 4,
+        }),
+        cooldownSize = option({
+            type = "range",
+            name = L["Cooldown size"],
+            desc = L["Size of each cd icon"],
+            order = 5,
+            min = 5,
+            max = (Gladdy.db.healthBarHeight+Gladdy.db.castBarHeight+Gladdy.db.powerBarHeight+Gladdy.db.bottomMargin)/4,
+        }),
+		cooldownPos = option({
+            type = "select",
+            name = L["Position"],
+            desc = L["Choose where cooldowns are displayed"],
+            order = 6,
+            values = {
+                ["LEFT"] = L["Left"],
+                ["RIGHT"] = L["Right"],
+            },
+        }),
+    }
+end
+
 function Gladdy:GetCooldownList()
 	return {
 		-- Spell Name			   Cooldown[, Spec]
@@ -14,12 +85,19 @@ function Gladdy:GetCooldownList()
          [31687] 	= { cd = 180, spec = L["Frost"], },    -- Summon Water Elemental    
          [12043] 	= { cd = 120, spec = L["Arcane"], },   -- Presence of Mind
          [11129] 	= { cd = 120, spec = L["Fire"] },      -- Combustion
+		 [120] 	= { cd = 10,
+					sharedCD = {
+								   [31661] = true,         -- Cone of Cold
+								},	spec = L["Fire"] },    -- Dragon's Breath
+         [31661] 	= { cd = 20,
+					sharedCD = {
+								   [120] = true,       	   -- Cone of Cold
+								},	spec = L["Fire"] },    -- Dragon's Breath
          [12042] 	= { cd = 120, spec = L["Arcane"], },   -- Arcane Power  
          [11958] 	= { cd = 480, spec = L["Frost"],       -- Coldsnap
             resetCD = { 
                [12472] = true, 
                [45438] = true, 
-               [42917] = true,
                [31687] = true,  
             }, 
          },        
@@ -46,7 +124,7 @@ function Gladdy:GetCooldownList()
 		
 		-- Shaman
 		["SHAMAN"] = {
-		[8042] 	= { cd = 6,                              -- Earth Shock
+		[8042] 	= { cd = 6,         -- Earth Shock
             sharedCD = {
                [8056] = true,       -- Frost Shock
                [8050] = true,       -- Flame Shock
@@ -85,8 +163,10 @@ function Gladdy:GetCooldownList()
       ["WARLOCK"] = {
          [17928] 	= 40,    -- Howl of Terror
          [27223] 	= 120,   -- Death Coil         
-         [19647] 	= { cd = 24 },	-- Spell Lock; how will I handle pet spells?      
+         --[19647] 	= { cd = 24 },	-- Spell Lock; how will I handle pet spells?      
          [30414] 	= { cd = 20, spec = L["Destruction"], },  -- Shadowfury               
+         [17877] 	= { cd = 15, spec = L["Destruction"], },  -- Shadowburn               
+         [18708] 	= { cd = 900, spec = L["Demonology"], },  -- Feldom            
       },  
       
       -- Warrior
@@ -101,7 +181,7 @@ function Gladdy:GetCooldownList()
                [6552] = true,
             },
          }, ]]        
-         [23920] 	= 10,    -- Spell Reflection
+         --[23920] 	= 10,    -- Spell Reflection
          [3411] 	= 30,    -- Intervene
          [676] 	= 60,    -- Disarm       
          [5246] 	= 120,   -- Intimidating Shout 
@@ -179,19 +259,21 @@ function Gladdy:GetCooldownList()
 		
 	},
 	["NightElf"] = {
-		
+		[2651] = { cd = 180, spec = ["Discipline"], },
 	},
 	["Draenei"] = {
-		
+		[32548] = { cd = 300, spec = ["Discipline"], },
 	},
 	["Human"] = {
-		
+		[13908] = { cd = 600, spec = ["Discipline"], },
 	},
 	["Gnome"] = {
-		
+		[20589] = 105,
 	},
 	["Dwarf"] = {
 		[20594] = 180, -- Stoneform
+		[13908] = { cd = 600, spec = ["Discipline"], },
+		
 	},		
 	}
 end
