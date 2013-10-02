@@ -810,8 +810,13 @@ function Gladdy:DetectSpec(unit, spec)
     self:SendMessage("UNIT_SPEC", unit, spec)
 	
 	-- update cooldown tracker
+	--[[
+		All of this could possibly be handled in a "once they're used, they show up"-manner
+		but I PERSONALLY prefer it this way. It also meant less work and makes spec-specific cooldowns easier
+	]]
 	if (self.db.cooldown) then
       local class = self.buttons[unit].class
+	  local race = self.buttons[unit].race
       for k,v in pairs(self.cooldownSpells[class]) do
          --if (self.db.cooldownList[k] ~= false and self.db.cooldownList[class] ~= false) then      
             if (type(v) == "table" and ((v.spec ~= nil and v.spec == spec) or (v.notSpec ~= nil and v.notSpec ~= spec))) then
@@ -840,6 +845,36 @@ function Gladdy:DetectSpec(unit, spec)
          end
       --end
    end
+   ----------------------
+   --- RACE FUNCTIONALITY
+   ----------------------
+	local race = self.buttons[unit].race
+    for k,v in pairs(self.cooldownSpells[race]) do
+         --if (self.db.cooldownList[k] ~= false and self.db.cooldownList[class] ~= false) then      
+        if (type(v) == "table" and ((v.spec ~= nil and v.spec == spec) or (v.notSpec ~= nil and v.notSpec ~= spec))) then
+               local button = self.buttons[unit]
+               local sharedCD = false
+               if (type(v) == "table" and v.sharedCD ~= nil and v.sharedCD.cd == nil) then
+                  for spellId, _ in pairs(v.sharedCD) do
+                     for i=1, button.lastCooldownSpell do
+                        local icon = button.spellCooldownFrame["icon" .. i]
+                        if (icon.spellId == spellId) then 
+                           sharedCD = true 
+                        end
+                     end
+                  end
+               end
+               if sharedCD then return end
+               
+               local icon = button.spellCooldownFrame["icon" .. button.lastCooldownSpell]
+               icon:Show()
+               icon.texture:SetTexture(self.spellTextures[k])
+               icon.spellId = k
+			   button.spellCooldownFrame["icon" .. button.lastCooldownSpell] = icon
+               button.lastCooldownSpell = button.lastCooldownSpell + 1            
+        end
+    end
+      --end
 end
 
 function Gladdy:IsValid(uid)
@@ -896,7 +931,9 @@ function Gladdy:UpdateGUID(guid, uid)
 		 ----
 		 -- RACE FUNCTIONALITY
 		 ----
+		 
 		 for k,v in pairs(self.cooldownSpells[race]) do
+		 if (type(v) ~= "table" or (type(v) == "table" and v.spec == nil and v.notSpec == nil)) then
 			if (not sharedCD) then                              
                 local icon = button.spellCooldownFrame["icon" .. button.lastCooldownSpell]
                 icon:Show()
@@ -905,6 +942,7 @@ function Gladdy:UpdateGUID(guid, uid)
 				button.spellCooldownFrame["icon" .. button.lastCooldownSpell] = icon
 				button.lastCooldownSpell = button.lastCooldownSpell + 1  
             end
+		 end	
 		 end
 		end
 	end	

@@ -8,7 +8,7 @@ local Cooldown = Gladdy:NewModule("Cooldown", nil, {
 })
 
 function Cooldown:Test(unit)
-		local button = Gladdy.buttons[unit]
+		--[[local button = Gladdy.buttons[unit]
 		self.cooldownSpells = Gladdy:GetCooldownList()
 		button.lastCooldownSpell = 1
 		local class = "WARRIOR"
@@ -20,7 +20,7 @@ function Cooldown:Test(unit)
 			icon.texture:SetTexture(Gladdy.spellTextures[k])
 			button.spellCooldownFrame["icon" .. button.lastCooldownSpell] = icon
 			button.lastCooldownSpell = button.lastCooldownSpell + 1  
-		end
+		end]]
 end
 
 local function option(params)
@@ -243,7 +243,7 @@ function Gladdy:GetCooldownList()
             },
          },
       },
-	  ["Scourge"] = {
+	["Scourge"] = {
 		[7744] = 120, -- Will of the Forsaken
 	},
 	["BloodElf"] = {
@@ -259,21 +259,21 @@ function Gladdy:GetCooldownList()
 		
 	},
 	["NightElf"] = {
-		[2651] = { cd = 180, spec = ["Discipline"], },
+		[2651] = { cd = 180, spec = L["Discipline"], }, -- Elune's Grace
+		[10797] = { cd = 30, spec = L["Discipline"], }, -- Star Shards
 	},
 	["Draenei"] = {
-		[32548] = { cd = 300, spec = ["Discipline"], },
+		[32548] = { cd = 300, spec = L["Discipline"], }, -- Hymn of Hope
 	},
 	["Human"] = {
-		[13908] = { cd = 600, spec = ["Discipline"], },
+		[13908] = { cd = 600, spec = L["Discipline"], }, -- Desperate Prayer
 	},
 	["Gnome"] = {
-		[20589] = 105,
+		[20589] = 105, -- Escape Artist
 	},
 	["Dwarf"] = {
 		[20594] = 180, -- Stoneform
-		[13908] = { cd = 600, spec = ["Discipline"], },
-		
+		[13908] = { cd = 600, spec = L["Discipline"], }, -- Desperate Prayer
 	},		
 	}
 end
