@@ -34,6 +34,12 @@ BINDING_NAME_GLADDYBUTTON2_RIGHT = L["Right Click Enemy 2"]
 BINDING_NAME_GLADDYBUTTON3_RIGHT = L["Right Click Enemy 3"]
 BINDING_NAME_GLADDYBUTTON4_RIGHT = L["Right Click Enemy 4"]
 BINDING_NAME_GLADDYBUTTON5_RIGHT = L["Right Click Enemy 5"]
+BINDING_NAME_GLADDYTRINKET1 = L["Trinket Used Enemy 1"]
+BINDING_NAME_GLADDYTRINKET2 = L["Trinket Used Enemy 2"]
+BINDING_NAME_GLADDYTRINKET3 = L["Trinket Used Enemy 3"]
+BINDING_NAME_GLADDYTRINKET4 = L["Trinket Used Enemy 4"]
+BINDING_NAME_GLADDYTRINKET5 = L["Trinket Used Enemy 5"]
+
 
 function Clicks:Initialise()
     self:RegisterMessage("JOINED_ARENA")
@@ -56,7 +62,9 @@ function Clicks:JOINED_ARENA()
     for k, v in pairs(Gladdy.buttons) do
         local left = GetBindingKey(("GLADDYBUTTON%d_LEFT"):format(v.id))
         local right = GetBindingKey(("GLADDYBUTTON%d_RIGHT"):format(v.id))
-
+		local key = GetBindingKey("GLADDYTRINKET" .. v.id)
+		
+		ClearOverrideBindings(v.trinketButton)
         ClearOverrideBindings(v.secure)
 
         if (left) then
@@ -65,6 +73,10 @@ function Clicks:JOINED_ARENA()
 
         if (right) then
             SetOverrideBindingClick(v.secure, false, right, v.secure:GetName(), "RightButton")
+        end
+		
+		if (key) then
+            SetOverrideBindingClick(v.trinketButton, true, key, v.trinketButton:GetName(), "LeftButton")
         end
     end
 

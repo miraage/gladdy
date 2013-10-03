@@ -148,7 +148,7 @@ function Announcements:Send(msg, throttle, color)
     elseif (dest == "rw") then
         RaidNotice_AddMessage(RaidBossEmoteFrame, msg, color)
     elseif (dest == "fct" and IsAddOnLoaded("Blizzard_CombatText")) then
-        CombatText_AddMessage(msg, COMBAT_TEXT_SCROLL_FUNCTION, color.r, color.g, color.b)
+        CombatText_AddMessage(msg, COMBAT_TEXT_SCROLL_FUNCTION, color.r, color.g, color.b, "crit")
     elseif (dest == "msbt" and IsAddOnLoaded("MikScrollingBattleText")) then
         MikSBT.DisplayMessage(msg, MikSBT.DISPLAYTYPE_NOTIFICATION, true, color.r * 255, color.g * 255, color.b * 255)
     elseif (dest == "sct" and IsAddOnLoaded("sct")) then
