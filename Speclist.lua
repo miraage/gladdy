@@ -15,7 +15,7 @@ function Gladdy:GetSpecBuffs()
         -- HUNTER
         [GetSpellInfo(34692)] = L["Beast Mastery"],     -- The Beast Within
         [GetSpellInfo(20895)] = L["Beast Mastery"],     -- Spirit Bond
-        [GetSpellInfo(34455)] = L["Beast Mastery"],     -- Ferocious Inspiration
+        --[GetSpellInfo(34455)] = L["Beast Mastery"],     -- Ferocious Inspiration
 		--[GetSpellInfo(27066)] = L["Marksmanship"],      -- Trueshot Aura
 
         -- MAGE
@@ -25,7 +25,7 @@ function Gladdy:GetSpecBuffs()
         [GetSpellInfo(31836)] = L["Holy"],              -- Light's Grace
         [GetSpellInfo(20375)] = L["Retribution"],       -- Seal of Command
         --[GetSpellInfo(20218)] = L["Retribution"],       -- Sanctity Aura
-        [GetSpellInfo(20049)] = L["Retribution"],       -- Sanctity Aura
+        [GetSpellInfo(20049)] = L["Retribution"],       -- Vengeance
 
         -- PRIEST
         [GetSpellInfo(15473)] = L["Shadow"],            -- Shadowform
