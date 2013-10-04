@@ -85,25 +85,27 @@ function Trinket:JOINED_ARENA()
 end
 
 function Trinket:OnCommReceived(prefix, guid)
-    if (prefix == "GladdyTrinketUsed") then
+    if (guid and prefix == "GladdyTrinketUsed") then
         for k, v in pairs(Gladdy.buttons) do
-            if (v.guid == guid) then
-                self:Used(k)
+            if (v.guid:lower() == guid:lower()) then
+                self:Used(k, true)
                 break
             end
         end
     end
 end
 
-function Trinket:Used(unit)
+function Trinket:Used(unit, force)
     local trinket = self.frames[unit]
     if (not trinket) then return end
 
-    Gladdy:SendMessage("TRINKET_USED", unit)
+    if (not trinket.frame.active or force) then
+        Gladdy:SendMessage("TRINKET_USED", unit)
 
-    trinket.frame.timeLeft = 120
-    trinket.frame.active = true
-    trinket.cooldown:SetCooldown(GetTime(), 120)
+        trinket.frame.timeLeft = 120
+        trinket.frame.active = true
+        trinket.cooldown:SetCooldown(GetTime(), 120)
+    end
 end
 
 local function option(params)

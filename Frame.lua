@@ -1,4 +1,3 @@
-local tonumber = tonumber
 local pairs = pairs
 
 local CreateFrame = CreateFrame

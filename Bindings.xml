@@ -9,4 +9,9 @@
     <Binding name="GLADDYBUTTON3_RIGHT"/>
     <Binding name="GLADDYBUTTON4_RIGHT"/>
     <Binding name="GLADDYBUTTON5_RIGHT"/>
+    <Binding name="GLADDYTRINKET1"/>
+    <Binding name="GLADDYTRINKET2"/>
+    <Binding name="GLADDYTRINKET3"/>
+    <Binding name="GLADDYTRINKET4"/>
+    <Binding name="GLADDYTRINKET5"/>
 </Bindings>

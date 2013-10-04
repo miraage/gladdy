@@ -33,6 +33,9 @@ SlashCmdList["GLADDY"] = function(msg)
         Gladdy:ToggleFrame(3)
     elseif (msg == "ui" or msg == "options" or msg == "config") then
         Gladdy:ShowOptions()
+    elseif (msg:find("trinket")) then
+        local unitId = tonumber(msg:match("^trinket(.+)"))
+        Gladdy:Call("Trinket", "Used", "arena" .. unitId)
     elseif (msg == "reset") then
         Gladdy.dbi:ResetProfile()
     elseif (msg == "hide") then

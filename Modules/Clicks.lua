@@ -2,6 +2,7 @@ local tinsert = table.insert
 local pairs = pairs
 local tonumber = tonumber
 
+local CreateFrame = CreateFrame
 local InCombatLockdown = InCombatLockdown
 local GetBindingKey = GetBindingKey
 local ClearOverrideBindings = ClearOverrideBindings
@@ -34,9 +35,28 @@ BINDING_NAME_GLADDYBUTTON2_RIGHT = L["Right Click Enemy 2"]
 BINDING_NAME_GLADDYBUTTON3_RIGHT = L["Right Click Enemy 3"]
 BINDING_NAME_GLADDYBUTTON4_RIGHT = L["Right Click Enemy 4"]
 BINDING_NAME_GLADDYBUTTON5_RIGHT = L["Right Click Enemy 5"]
+BINDING_NAME_GLADDYTRINKET1 = L["Trinket Used Enemy 1"]
+BINDING_NAME_GLADDYTRINKET2 = L["Trinket Used Enemy 2"]
+BINDING_NAME_GLADDYTRINKET3 = L["Trinket Used Enemy 3"]
+BINDING_NAME_GLADDYTRINKET4 = L["Trinket Used Enemy 4"]
+BINDING_NAME_GLADDYTRINKET5 = L["Trinket Used Enemy 5"]
 
 function Clicks:Initialise()
+    self.frames = {}
+
     self:RegisterMessage("JOINED_ARENA")
+end
+
+function Clicks:CreateFrame(unit)
+    local trinketButton = CreateFrame("Button", "GladdyTrinketButton" .. unit, Gladdy.buttons[unit], "SecureActionButtonTemplate")
+    trinketButton:RegisterForClicks("AnyUp")
+    trinketButton:SetAttribute("*type*", "macro")
+
+    self.frames[unit] = trinketButton
+end
+
+function Clicks:UpdateFrame(unit)
+    self.frames[unit]:SetAttribute("macrotext1", "/gladdy trinket" .. Gladdy.buttons[unit].id)
 end
 
 function Clicks:Reset()
@@ -50,14 +70,18 @@ function Clicks:ResetUnit(unit)
     for k, v in pairs(Gladdy.db.attributes) do
         button.secure:SetAttribute(v.modifier .. "macrotext" .. v.button, "")
     end
+
+    self.frames[unit]:SetAttribute("macrotext1", "")
 end
 
 function Clicks:JOINED_ARENA()
     for k, v in pairs(Gladdy.buttons) do
         local left = GetBindingKey(("GLADDYBUTTON%d_LEFT"):format(v.id))
         local right = GetBindingKey(("GLADDYBUTTON%d_RIGHT"):format(v.id))
+        local trinket = GetBindingKey(("GLADDYTRINKET%d"):format(v.id))
 
         ClearOverrideBindings(v.secure)
+        ClearOverrideBindings(self.frames[k])
 
         if (left) then
             SetOverrideBindingClick(v.secure, false, left, v.secure:GetName(), "LeftButton")
@@ -65,6 +89,10 @@ function Clicks:JOINED_ARENA()
 
         if (right) then
             SetOverrideBindingClick(v.secure, false, right, v.secure:GetName(), "RightButton")
+        end
+
+        if (trinket) then
+            SetOverrideBindingClick(self.frames[k], false, trinket, self.frames[k]:GetName(), "LeftButton")
         end
     end
 
