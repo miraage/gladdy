@@ -10,7 +10,7 @@ function Gladdy:GetSpecBuffs()
 
         -- HUNTER
         [GetSpellInfo(34692)] = L["Beast Mastery"],     -- The Beast Within
-        [GetSpellInfo(20895)] = L["Beast Mastery"],       -- Spirit Bond
+        [GetSpellInfo(20895)] = L["Beast Mastery"],     -- Spirit Bond
 
         -- MAGE
         [GetSpellInfo(33405)] = L["Frost"],             -- Ice Barrier
@@ -18,6 +18,7 @@ function Gladdy:GetSpecBuffs()
         -- PALADIN
         [GetSpellInfo(31836)] = L["Holy"],              -- Light's Grace
         [GetSpellInfo(20375)] = L["Retribution"],       -- Seal of Command
+        [GetSpellInfo(20049)] = L["Retribution"],       -- Vengeance
 
         -- PRIEST
         [GetSpellInfo(15473)] = L["Shadow"],            -- Shadowform
